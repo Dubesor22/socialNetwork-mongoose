@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Schema.ObjectId;
 
 const PostSchema = new mongoose.Schema(
   {
+    userId: {
+      type: ObjectId,
+      ref: "User",
+    },
     username: String,
     body: String,
   },
