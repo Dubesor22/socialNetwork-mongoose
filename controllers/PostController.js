@@ -3,7 +3,11 @@ const Post = require("../models/Post");
 const PostController = {
   async create(req, res) {
     try {
-      const post = await Post.create(req.body);
+      const post = await Post.create({
+        body: req.body.body,
+        userId: req.user._id,
+        username: req.user.username,
+      });
       res.status(201).send(post);
     } catch (error) {
       console.error(error);
@@ -56,17 +60,17 @@ const PostController = {
     }
   },
 
-  async delete(req, res) {
-    try {
-      const post = await Post.deleteMany(req.params.username);
-      res.send({ post, message: "Posts deleteds" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({
-        message: "there was a problem trying to remove the publication",
-      });
-    }
-  },
+  // async delete(req, res) {
+  //   try {
+  //     const post = await Post.deleteMany(req.params.username);
+  //     res.send({ post, message: "Posts deleteds" });
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).send({
+  //       message: "there was a problem trying to remove the publication",
+  //     });
+  //   }
+  // },
 
   async update(req, res) {
     try {
