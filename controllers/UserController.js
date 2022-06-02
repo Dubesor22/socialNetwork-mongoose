@@ -104,10 +104,10 @@ const UserController = {
     }
   },
 
-  async getAllUsers(req, res) {
+  async getUser(req, res) {
     try {
-      const users = await User.find({ populate: "postId" });
-      res.send(users);
+      const user = await User.findById(req.user._id).populate("postIds");
+      res.send(user);
     } catch (error) {
       console.error(error);
     }

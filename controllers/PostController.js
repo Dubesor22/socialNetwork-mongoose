@@ -1,31 +1,30 @@
 const Post = require("../models/Post");
+const User = require("../models/User.js");
 
 const PostController = {
   async create(req, res) {
     try {
       const post = await Post.create({
-        body: req.body.body,
+        ...req.body,
         userId: req.user._id,
         username: req.user.username,
       });
-      // await user.findByIdAndUpdate(
-      //   req.user,
-      //   { $push: { posts: { ...req.body, userId: req.user._id } } },
-      //   { new: true }
-      // );
-
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: { postIds: post._id },
+      });
       res.status(201).send(post);
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Ha habido un problema al crear el posto" });
     }
   },
 
   async getAll(req, res) {
     try {
-      const posts = await Post.find();
+      const { page = 1, limit = 10 } = req.query;
+      const posts = await Post.find()
+        .populate("comments.userId")
+        .limit(limit * 1)
+        .skip((page - 1) * limit);
       res.send(posts);
     } catch (error) {
       console.error(error);

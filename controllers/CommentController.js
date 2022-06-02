@@ -1,15 +1,17 @@
 const Comment = require("../models/Comment");
 
 const CommentController = {
-  async create(req, res) {
+  async insertComment(req, res) {
     try {
-      const comment = await Comment.create(req.body);
-      res.status(201).send(comment);
+      const comment = await Comment.findByIdAndUpdate(
+        req.params._id,
+        { $push: { comments: { ...req.body, userId: req.user._id } } },
+        { new: true }
+      );
+      res.send(comment);
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Ha habido un problema al crear el comentario" });
+      res.status(500).send({ message: "There was a problem with your review" });
     }
   },
 };
