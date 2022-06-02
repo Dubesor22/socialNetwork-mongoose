@@ -6,12 +6,9 @@ const Logger = require("logplease");
 const logger = Logger.create("This Is Working Guys On", {
   color: Logger.Colors.Magenta,
 });
-const fs = require("fs");
-const multer = require("multer");
-const upload = multer({ dest: "public/images" });
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("public"));
 
 dbConnection();
 

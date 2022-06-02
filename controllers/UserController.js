@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/keys");
 const transporter = require("../config/nodemailer");
+const path = require("path");
 
 const UserController = {
   async create(req, res, next) {
@@ -16,19 +17,19 @@ const UserController = {
       // req.body.active = true;
       req.body.confirmed = false;
 
-      const user = await User.create(req.body);
+      const user = await User.create({ ...req.body });
       const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, {
         expiresIn: "48h",
       });
       const url = "http://localhost:8080/users/confirm/" + emailToken;
-      await transporter.sendMail({
-        to: req.body.email,
-        subject: "Confirme su registro",
-        html: `<h3>Bienvenido, estás a un paso de registrarte </h3>
-          <a href="${url}"> Click para confirmar tu registro</a>
-          Este enlace Caduca en 48 horas.
-          `,
-      });
+      // await transporter.sendMail({
+      //   to: req.body.email,
+      //   subject: "Confirme su registro",
+      //   html: `<h3>Bienvenido, estás a un paso de registrarte </h3>
+      //     <a href="${url}"> Click para confirmar tu registro</a>
+      //     Este enlace Caduca en 48 horas.
+      //     `,
+      // });
       // 🚨🚨🚨port 465 is currently closed🚨🚨🚨
       res.status(201).send({
         message: "We have sent a mail to confirm the registration",
@@ -70,43 +71,20 @@ const UserController = {
         req.body.avatar = req.file.filename;
       }
 
-      const result = await User.updateOne(req.body, {
-        where: { id: req.user.id },
+      const result = await User.findByIdAndUpdate(req.user._id, {
+        avatar: req.file.originalname,
       });
 
       if (result) {
-        return res.send({ message: "User updated successfully" });
+        return res.send({ message: "User updated successfully", result });
       } else {
         return res.send({ message: "Can't update user" });
       }
-    } catch (error) {
+    } catch (err) {
       err.origin = "User Update";
       next(err);
     }
   },
-
-  // login(req, res) {
-  //   User.findOne({
-  //     where: {
-  //       email: req.body.email,
-  //     },
-  //   }).then((user) => {
-  //     if (!user) {
-  //       return res
-  //         .status(400)
-  //         .send({ message: "Usuario o contraseña incorrectos" });
-  //     }
-  //     const isMatch = bcrypt.compareSync(req.body.password, user.password);
-  //     if (!isMatch) {
-  //       return res
-  //         .status(400)
-  //         .send({ message: "Usuario o contraseña incorrectos" });
-  //     }
-  //     token = jwt.sign({ id: user.id }, jwt_secret);
-  //     Token.create({ token, UserId: user.id });
-  //     res.send({ message: "Bienvenido " + user.username, user, token });
-  //   });
-  // },
 
   async login(req, res) {
     try {
@@ -128,7 +106,7 @@ const UserController = {
 
   async getAllUsers(req, res) {
     try {
-      const users = await User.find();
+      const users = await User.find({ populate: "postId" });
       res.send(users);
     } catch (error) {
       console.error(error);

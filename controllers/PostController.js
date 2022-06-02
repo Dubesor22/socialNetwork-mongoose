@@ -8,6 +8,12 @@ const PostController = {
         userId: req.user._id,
         username: req.user.username,
       });
+      // await user.findByIdAndUpdate(
+      //   req.user,
+      //   { $push: { posts: { ...req.body, userId: req.user._id } } },
+      //   { new: true }
+      // );
+
       res.status(201).send(post);
     } catch (error) {
       console.error(error);
