@@ -36,7 +36,7 @@ const UserController = {
         user,
       });
     } catch (err) {
-      err.origin = "User 1";
+      err.origin = "usuario ";
       next(err);
     }
   },
