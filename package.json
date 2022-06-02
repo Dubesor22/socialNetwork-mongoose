@@ -18,7 +18,8 @@
     "logplease": "^1.2.15",
     "mongoose": "^6.3.5",
     "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.7.5"
+    "nodemailer": "^6.7.5",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
