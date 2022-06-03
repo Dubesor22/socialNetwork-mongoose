@@ -65,17 +65,17 @@ const PostController = {
     }
   },
 
-  // async delete(req, res) {
-  //   try {
-  //     const post = await Post.deleteMany(req.params.username);
-  //     res.send({ post, message: "Posts deleteds" });
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).send({
-  //       message: "there was a problem trying to remove the publication",
-  //     });
-  //   }
-  // },
+  async deleteByUser(req, res) {
+    try {
+      const post = await Post.deleteMany(req.params.username);
+      res.send({ post, message: "Posts deleteds" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "there was a problem trying to remove the publications",
+      });
+    }
+  },
 
   async update(req, res) {
     try {
@@ -97,7 +97,6 @@ const PostController = {
         res.send({ message: "ya le has dado a like chavalote"})
       }
       res.send({ message: "you liked", post });
-
     } catch (error) {
       console.log(error);
     }
