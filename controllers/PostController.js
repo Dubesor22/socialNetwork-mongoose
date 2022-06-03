@@ -87,5 +87,34 @@ const PostController = {
       console.error(error);
     }
   },
+
+  async like(req, res) {
+    try{
+      const post = await Post.findOneAndUpdate({_id: req.params._id, likes: {$nin: req.user._id} } , {
+        $push: { likes: req.user._id },
+      }, {new: true});
+      if(post === null){
+        res.send({ message: "ya le has dado a like chavalote"})
+      }
+      res.send({ message: "you liked", post });
+
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async dislike(req, res) {
+    try{
+      const post = await Post.findByIdAndUpdate(req.params._id , {
+        $pull: { likes: req.user._id } 
+      }, {new: true});
+       
+      res.send({ message: "you disliked", post });
+
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
 };
 module.exports = PostController;

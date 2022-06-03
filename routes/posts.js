@@ -14,5 +14,7 @@ router.get("/name/:username", PostController.getPostsByUserName);
 router.delete("/:_id", authentication, isAuthor, PostController.delete);
 // router.delete("/delete/:Username", isAdmin, PostController.delete);
 router.put("/id/:_id", isAuthor, PostController.update);
+router.put("/like/:_id", authentication, PostController.like);
+router.put("/dislike/:_id",authentication, PostController.dislike)
 
 module.exports = router;

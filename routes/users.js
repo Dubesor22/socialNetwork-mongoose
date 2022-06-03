@@ -5,7 +5,7 @@ const { authentication, isAdmin } = require("../middlewares/authentication");
 
 const upload = require("../middlewares/multer");
 
-router.post("/", UserController.create);
+router.post("/", authentication, UserController.create);
 router.put(
   "/",
   authentication,
