@@ -32,6 +32,30 @@ const CommentController = {
       console.error(error);
     }
   },
+
+  async getAll(req, res) {
+    try {
+      const { page = 1, limit = 10 } = req.query;
+      const comments = await Comment.find()
+        .limit(limit * 1)
+        .skip((page - 1) * limit);
+      res.send(comments);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async delete(req, res) {
+    try {
+      const comment = await Comment.findByIdAndDelete(req.params._id);
+      res.send({comment, message: "Comment deleted" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "there was a problem trying to remove the publication",
+      });
+    }
+  },
 };
 
 module.exports = CommentController;
