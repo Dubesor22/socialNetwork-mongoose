@@ -98,7 +98,7 @@ const UserController = {
       if (user.tokens.length > 4) user.tokens.shift();
       user.tokens.push(token);
       await user.save();
-      res.send({ message: "Bienvenid@ " + user.name, token, user });
+      res.send({ message: "Bienvenid@ " + user.username, token, user });
     } catch (error) {
       console.error(error);
     }
@@ -106,7 +106,7 @@ const UserController = {
 
   async getUser(req, res) {
     try {
-      const user = await User.findById(req.user._id).populate("postIds");
+      const user = await User.findById(req.params._id).populate("postIds")
       res.send(user);
     } catch (error) {
       console.error(error);
@@ -137,6 +137,44 @@ const UserController = {
       });
     }
   },
+
+  async follow(req, res) {
+        try {
+          const exist = await User.findById(req.params._id)
+          if (!exist.followers.includes(req.user._id)){
+          const user = await User.findByIdAndUpdate(
+            req.params._id,
+            { $push: {followers: req.user._id }},
+            { new: true }     
+          );
+          res.send({message: "you followed!!", user});
+        }
+        else {
+          res.status(400).send({message: "You can't follow twice"})
+        }
+        } catch (error) {
+          res.status(500).send({message: "Hay un problema con el controlador" });
+        }
+      },
+
+       async removeFollow(req, res) {
+        try {
+          const exist = await User.findById(req.params._id)
+          if (exist.followers.includes(req.user._id)){
+          const user = await User.findByIdAndUpdate(
+            req.params._id,
+            { $pull: {followers: req.user._id}},
+            { new: true }
+          );
+          res.status(200).send({message: 'follow removed', user});
+        }
+        else {
+          res.status(400).send({message: "No puedes quitar un follow sin darlo primero!"})
+        }
+        } catch (error) {
+          res.status(500).send({message: "Hay un problema con el controlador" });
+        }
+      },
 };
 
 module.exports = UserController;

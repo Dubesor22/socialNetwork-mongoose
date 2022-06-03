@@ -20,6 +20,7 @@ const UserSchema = new mongoose.Schema(
     avatar: { type: String, default: "" },
     postIds: [{ type: ObjectId, ref: "Post" }],
     isAdmin: { type: Boolean, default: false },
+    followers: [{ type: ObjectId }],
   },
   { timestamps: true }
 );
