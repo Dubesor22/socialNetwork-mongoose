@@ -5,19 +5,21 @@ const { isEmail } = require("validator");
 const UserSchema = new mongoose.Schema(
   {
     name: String,
-    username: { type: String, required: true },
-    password: { type: String, required: true },
+    username: { type: String, required: true, min: 3, max: 25 },
+    password: { type: String, required: true, min: 3, max: 50 },
     email: {
       type: String,
       required: true,
       unique: true,
+      max: 50,
       validate: [isEmail, "no es Un email Valido"],
     },
     role: String,
     confirmed: { type: Boolean, default: false },
     tokens: [],
-    avatar: String,
+    avatar: { type: String, default: "" },
     postIds: [{ type: ObjectId, ref: "Post" }],
+    isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -1,11 +1,15 @@
 const nodemailer = require("nodemailer");
-const { auth } = require("./keys.js");
+const {USER , PASS}  = process.env
+require("dotenv").config();
+
 
 let transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
   secure: true,
-  auth,
+  auth: 
+  {user: USER,
+  pass: PASS},
 });
 
 module.exports = transporter;
