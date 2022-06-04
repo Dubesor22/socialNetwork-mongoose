@@ -28,3 +28,5 @@ app.use("/users", require("./routes/users"));
 app.use(typeError);
 
 app.listen(PORT, logger.info(`Servidor Arrancado en puerto:  ${PORT}`));
+
+module.exports = app;

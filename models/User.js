@@ -4,8 +4,8 @@ const { isEmail } = require("validator");
 
 const UserSchema = new mongoose.Schema(
   {
-    name: String,
-    username: { type: String, required: true, min: 3, max: 25 },
+    // name: {type: String, required: false, max: 30},
+    username: { type: String, required: true, min: 3, max: 30 },
     password: { type: String, required: true, min: 3, max: 50 },
     email: {
       type: String,
@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema(
       max: 50,
       validate: [isEmail, "no es Un email Valido"],
     },
-    role: String,
+    role: { type: String },
     confirmed: { type: Boolean, default: false },
     tokens: [],
     avatar: { type: String, default: "" },

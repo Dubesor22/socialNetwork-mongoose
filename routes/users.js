@@ -14,7 +14,8 @@ router.put(
 );
 router.get("/confirm/:emailToken", UserController.confirm);
 router.post("/login", UserController.login);
-router.get("/:_id", UserController.getUser);
+router.get("/", UserController.getUsers)
+router.get("/listById/:_id", UserController.getUserById);
 router.delete(
   "/clean-all",
   authentication,

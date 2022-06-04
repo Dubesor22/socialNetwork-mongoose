@@ -100,11 +100,19 @@ const UserController = {
       await user.save();
       res.send({ message: "Bienvenid@ " + user.username, token, user });
     } catch (error) {
+      console.error(error); 
+    }
+  },
+  async getUsers(req, res) {
+    try {
+      const user = await User.find()
+      res.send(user);
+    } catch (error) {
       console.error(error);
     }
   },
 
-  async getUser(req, res) {
+  async getUserById(req, res) {
     try {
       const user = await User.findById(req.params._id).populate("postIds")
       res.send(user);
