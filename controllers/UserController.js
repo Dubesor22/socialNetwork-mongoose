@@ -112,6 +112,17 @@ const UserController = {
       console.error(error);
     }
   },
+  async deleteUser(req, res) {
+    try {
+      const user = await User.deleteOne({ _id: req.user._id });
+      res.send({user , message: "Usuario borrado con exito"});
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({message: "Error al borrar usuario"});
+    }
+  },
+
+
 
   async deleteAllUsers(req, res) {
     try {

@@ -11,18 +11,19 @@ router.put(
   authentication,
   upload.single("avatar"),
   UserController.updateUser
-);
-router.get("/confirm/:emailToken", UserController.confirm);
-router.post("/login", UserController.login);
-router.get("/:_id", UserController.getUser);
-router.delete(
-  "/clean-all",
-  authentication,
-  isAdmin,
-  UserController.deleteAllUsers
-);
-router.put("/logout", authentication, UserController.logout);
-router.put("/follow/:_id", authentication, UserController.follow);
-router.put("/unfollow/:_id", authentication, UserController.removeFollow);
+  );
+  router.get("/confirm/:emailToken", UserController.confirm);
+  router.post("/login", UserController.login);
+  router.get("/:_id", UserController.getUser);
+  router.put("/logout", authentication, UserController.logout);
+  router.put("/follow/:_id", authentication, UserController.follow);
+  router.put("/unfollow/:_id", authentication, UserController.removeFollow);
+  router.delete("/", authentication, UserController.deleteUser);
 
+  router.delete(
+      "/clean-all",
+      authentication,
+      isAdmin,
+      UserController.deleteAllUsers
+    );
 module.exports = router;
