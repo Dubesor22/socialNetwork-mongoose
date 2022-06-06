@@ -6,6 +6,7 @@ const transporter = require("../config/nodemailer");
 const path = require("path");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
+// const { post } = require("../routes/users");
 
 const UserController = {
   async create(req, res, next) {
@@ -119,19 +120,17 @@ const UserController = {
     try {
       const user = await User.findByIdAndDelete(req.user._id);
 
- 
-
+  //  const post = await Post.commentIds.forEach(commentId =>{
+  //       Comment.findById(commentId)
+  //       Comment.remove({"_id":{
+  //         $in: Post.comments
+  //       }})
+  //     })
      await Comment.deleteMany({userId:req.user._id})
       await Post.deleteMany({postIds:req.user.postIds})
      
-      // user.postIds.forEach(postId =>{
-      //   Post.findById(postId)
-      //   Post.remove({"_id":{
-      //     $in: user.posts
-      //   }})
-
-      // })
-      res.send({user, message: "Usuario borrado con exito"});
+    
+      res.send({user,post, message: "Usuario borrado con exito"});
     } catch (error) {
       console.error(error);
       res.status(500).send({message: "Error al borrar usuario"});
