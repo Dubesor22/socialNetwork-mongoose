@@ -1,4 +1,4 @@
-# eCommerce - SoulWear
+# SocialNetwork - BirrasSociales
 
 <!-- PROJECT LOGO -->
 
