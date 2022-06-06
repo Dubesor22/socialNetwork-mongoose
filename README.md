@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 
 <p align="center">
-  <img width="400" height="240" src="http://soulwearclothing.com/image/catalog/logo-main.png">
+  <img width="640" height="480" src="https://mediashower.com/img/3F0DB446-334E-11E5-A30A-C9395910E613/bigstock-Beer-Flight-48979337.jpg">
 </p>
 
 <!-- TABLE OF CONTENTS -->
