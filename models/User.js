@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema(
       validate: [isEmail, "no es Un email Valido"],
     },
     role: String,
-    confirmed: { type: Boolean, default: false },
+    confirmed: { type: Boolean, default: true },
     tokens: [],
     avatar: { type: String, default: "" },
     postIds: [{ type: ObjectId, ref: "Post" }],

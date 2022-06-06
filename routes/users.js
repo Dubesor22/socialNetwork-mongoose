@@ -14,7 +14,8 @@ router.put(
   );
   router.get("/confirm/:emailToken", UserController.confirm);
   router.post("/login", UserController.login);
-  router.get("/:_id", UserController.getUser);
+  router.put("/update", authentication, upload.single("avatar"), UserController.updateUser);
+  router.get("/",authentication, UserController.getUser);
   router.put("/logout", authentication, UserController.logout);
   router.put("/follow/:_id", authentication, UserController.follow);
   router.put("/unfollow/:_id", authentication, UserController.removeFollow);

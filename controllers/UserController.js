@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const  jwt_secret  = process.env.JWT_SECRET
 const transporter = require("../config/nodemailer");
 const path = require("path");
+const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 
 const UserController = {
   async create(req, res, next) {
@@ -15,7 +17,7 @@ const UserController = {
       req.body.role = "user"; // Assing role by default
       req.body.password = bcrypt.hashSync(req.body.password, 10);
       // req.body.active = true;
-      req.body.confirmed = false;
+      req.body.confirmed = true;
 
       const user = await User.create({ ...req.body });
       const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, {
@@ -76,10 +78,11 @@ const UserController = {
       });
 
       if (result) {
-        return res.send({ message: "User updated successfully", result });
+        return res.send({ message: "User updated successfully", result }),{new: true};
       } else {
         return res.send({ message: "Can't update user" });
       }
+     
     } catch (err) {
       err.origin = "User Update";
       next(err);
@@ -106,7 +109,7 @@ const UserController = {
 
   async getUser(req, res) {
     try {
-      const user = await User.findById(req.params._id).populate("postIds")
+      const user = await User.findById(req.user._id).populate("postIds")
       res.send(user);
     } catch (error) {
       console.error(error);
@@ -114,8 +117,21 @@ const UserController = {
   },
   async deleteUser(req, res) {
     try {
-      const user = await User.deleteOne({ _id: req.user._id });
-      res.send({user , message: "Usuario borrado con exito"});
+      const user = await User.findByIdAndDelete(req.user._id);
+
+ 
+
+     await Comment.deleteMany({userId:req.user._id})
+      await Post.deleteMany({postIds:req.user.postIds})
+     
+      // user.postIds.forEach(postId =>{
+      //   Post.findById(postId)
+      //   Post.remove({"_id":{
+      //     $in: user.posts
+      //   }})
+
+      // })
+      res.send({user, message: "Usuario borrado con exito"});
     } catch (error) {
       console.error(error);
       res.status(500).send({message: "Error al borrar usuario"});
