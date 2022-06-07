@@ -124,12 +124,6 @@ const UserController = {
     try {
       const user = await User.findByIdAndDelete(req.user._id);
 
-  //  const post = await Post.commentIds.forEach(commentId =>{
-  //       Comment.findById(commentId)
-  //       Comment.remove({"_id":{
-  //         $in: Post.comments
-  //       }})
-  //     })
      await Comment.deleteMany({userId:req.user._id})
       await Post.deleteMany({postIds:req.user.postIds})
      
