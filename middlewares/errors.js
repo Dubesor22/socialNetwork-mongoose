@@ -17,11 +17,11 @@ const typeError = (err, req, res, next) => {
   if (err.name === "ValidationError")
     return (err = handleValidationError(err, res));
   else if (err.code === 11000) {
-    res.status(400).send("El correo tiene que ser único");
+    res.status(400).send("Email Must be uniQue, as the Ring is");
   } else if (errOrigin === undefined) {
-    res.status(500).send("Se ha producido un error de origen desconocido");
+    res.status(500).send("UFO error 'unknown error' ");
   } else {
-    res.status(500).send(`Hubo un problema a la hora de crear un ${errOrigin}`);
+    res.status(500).send(`There was a problem in create ${errOrigin}`);
   }
 };
 

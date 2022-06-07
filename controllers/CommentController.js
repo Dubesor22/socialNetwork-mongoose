@@ -1,6 +1,7 @@
 const Comment = require("../models/Comment");
 const Post = require("../models/Post");
 
+
 const CommentController = {
   async create(req, res) {
     try {
@@ -52,7 +53,19 @@ const CommentController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-        message: "there was a problem trying to remove the publication",
+        message: "there was a problem trying to remove the comment",
+      });
+    }
+  },
+
+    async deleteForAdmin(req, res) {
+    try {
+      const comment = await Comment.findByIdAndDelete(req.params._id);
+      res.send({comment, message: "Comment deleted" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "there was a problem trying to remove the comment",
       });
     }
   },

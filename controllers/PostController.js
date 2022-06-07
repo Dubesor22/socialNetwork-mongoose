@@ -43,7 +43,7 @@ const PostController = {
   async getPostsByUserName(req, res) {
     try {
       if (req.params.username.length > 20) {
-        return res.status(400).send("Busqueda demasiado larga");
+        return res.status(400).send("search string too long");
       }
       const username = new RegExp(req.params.username, "i");
       const post = await Post.find({ username });
@@ -94,7 +94,7 @@ const PostController = {
         $push: { likes: req.user._id },
       }, {new: true});
       if(post === null){
-        res.send({ message: "ya le has dado a like chavalote"})
+        res.send({ message: "you already like that Shiiiit"})
       }
       res.send({ message: "you liked", post });
     } catch (error) {
@@ -112,6 +112,18 @@ const PostController = {
 
     } catch (error) {
       console.log(error);
+    }
+  },
+
+   async deleteAll(req, res) {
+    try {
+      const post = await Post.deleteMany({});
+      res.send({ post, message: " All Posts deleted" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "there was a problem trying to remove the publications",
+      });
     }
   },
 

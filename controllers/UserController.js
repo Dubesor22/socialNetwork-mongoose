@@ -4,6 +4,11 @@ const jwt = require("jsonwebtoken");
 const  jwt_secret  = process.env.JWT_SECRET
 const transporter = require("../config/nodemailer");
 const path = require("path");
+const Post = require("../models/Post");
+const Comment = require("../models/Comment");
+// const { post } = require("../routes/users");
+
+
 
 const UserController = {
   async create(req, res, next) {
@@ -15,7 +20,7 @@ const UserController = {
       req.body.role = "user"; // Assing role by default
       req.body.password = bcrypt.hashSync(req.body.password, 10);
       // req.body.active = true;
-      req.body.confirmed = false;
+      req.body.confirmed = true;
 
       const user = await User.create({ ...req.body });
       const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, {
@@ -41,7 +46,7 @@ const UserController = {
     }
   },
 
-  async confirm(req, res) {
+  async confirm(req, res, next) {
     try {
       const token = req.params.emailToken;
       const payload = jwt.verify(token, jwt_secret);
@@ -76,42 +81,68 @@ const UserController = {
       });
 
       if (result) {
-        return res.send({ message: "User updated successfully", result });
+        return res.send({ message: "User updated successfully", result }),{new: true};
       } else {
         return res.send({ message: "Can't update user" });
       }
+     
     } catch (err) {
       err.origin = "User Update";
       next(err);
     }
   },
 
-  async login(req, res) {
+  async login(req, res, next) {
     try {
       const user = await User.findOne({
         email: req.body.email,
       });
       if (!user.confirmed) {
-        return res.send({ message: "Confirme su email primero" });
+        return res.send({ message: "confirm your email frist" });
       }
       const token = jwt.sign({ _id: user._id }, jwt_secret);
       if (user.tokens.length > 4) user.tokens.shift();
       user.tokens.push(token);
       await user.save();
       res.send({ message: "Bienvenid@ " + user.username, token, user });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      err.origin = "User login";
+      next(err);
     }
   },
 
-  async getUser(req, res) {
+  async getUser(req, res, next) {
     try {
-      const user = await User.findById(req.params._id).populate("postIds")
+      const user = await User.findById(req.user._id).populate("postIds")
       res.send(user);
     } catch (error) {
-      console.error(error);
+      err.origin = "User get";
+      next(error);
     }
   },
+  async deleteUser(req, res) {
+    try {
+      const user = await User.findByIdAndDelete(req.user._id);
+
+  //  const post = await Post.commentIds.forEach(commentId =>{
+  //       Comment.findById(commentId)
+  //       Comment.remove({"_id":{
+  //         $in: Post.comments
+  //       }})
+  //     })
+     await Comment.deleteMany({userId:req.user._id})
+      await Post.deleteMany({postIds:req.user.postIds})
+     
+    
+      res.send({user,post, message: "User deleted successfully" });
+    } catch (error) {
+      err.origin("user Delete")
+      res.status(500).send({message: "User delete error"});
+      next(error);
+    }
+  },
+
+
 
   async deleteAllUsers(req, res) {
     try {
@@ -133,7 +164,7 @@ const UserController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-        message: "Hubo un problema al intentar conectar al usuario",
+        message: "there was a problem trying to logout"
       });
     }
   },
@@ -153,7 +184,7 @@ const UserController = {
           res.status(400).send({message: "You can't follow twice"})
         }
         } catch (error) {
-          res.status(500).send({message: "Hay un problema con el controlador" });
+          res.status(500).send({message: "There is a Problem with the controller" });
         }
       },
 
@@ -169,10 +200,10 @@ const UserController = {
           res.status(200).send({message: 'follow removed', user});
         }
         else {
-          res.status(400).send({message: "No puedes quitar un follow sin darlo primero!"})
+          res.status(400).send({message: "You cant remove a follow that you dont have"})
         }
         } catch (error) {
-          res.status(500).send({message: "Hay un problema con el controlador" });
+          res.status(500).send({message: "There is a Problem with the controller" });
         }
       },
 };

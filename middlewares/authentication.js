@@ -10,7 +10,7 @@ const authentication = async (req, res, next) => {
     const payload = jwt.verify(token, jwt_secret);
     const user = await User.findOne({ _id: payload._id, tokens: token });
     if (!user) {
-      return res.status(401).send({ message: "No estas autorizado" });
+      return res.status(401).send({ message: "You are not authorized" });
     }
     req.user = user;
     next();
@@ -18,7 +18,7 @@ const authentication = async (req, res, next) => {
     console.error(error);
     return res
       .status(500)
-      .send({ error, message: "Ha habido un problema con el token" });
+      .send({ error, message: "there was a problem with the tokken" });
   }
 };
 
@@ -37,14 +37,14 @@ const isAuthor = async (req, res, next) => {
     const post = await Post.findById(req.params._id);
     console.log(post.userId);
     if (post.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).send({ message: "Este post no es tuyo" });
+      return res.status(403).send({ message: "post is not yours" });
     }
     next();
   } catch (error) {
     console.error(error);
     return res.status(500).send({
       error,
-      message: "Ha habido un problema al comprobar la autoría del post",
+      message: "there was a problem with the post authory",
     });
   }
 };
