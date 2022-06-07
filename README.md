@@ -83,7 +83,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 with [trello](https://trello.com/b/GS70Xdtg/segundo-proyecto-backend) you can organice the whole proyect in a easy way
 
-![Trello image](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-06%20205840.png)
+![Trello image](./assets/trello.jpg)
 
 
 
