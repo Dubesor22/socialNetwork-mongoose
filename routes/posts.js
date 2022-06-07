@@ -16,5 +16,6 @@ router.delete("/delete/:Username", isAdmin, PostController.deleteByUser);
 router.put("/id/:_id", isAuthor, PostController.update);
 router.put("/like/:_id", authentication, PostController.like);
 router.put("/dislike/:_id",authentication, PostController.dislike)
+router.delete("/delte_all", isAdmin, PostController.deleteAll);
 
 module.exports = router;
