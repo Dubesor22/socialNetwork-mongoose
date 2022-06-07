@@ -65,6 +65,27 @@ This section should list any major frameworks/libraries used to bootstrap your p
 - [Postman](https://www.postman.com/)
 - [JWT](https://jwt.io//)
 - [.ENV](https://dotenv.io//)
+- [Heroku](https://id.heroku.com/)
+
+## Packages Installed
+
+* [bcrypt](https://www.npmjs.com/package/bcrypt)
+* [dotenv](https://www.npmjs.com/package/dotenv)
+* [express](https://www.npmjs.com/package/express)
+* [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+* [mongoose](https://www.npmjs.com/package/mongoose)
+* [multer](https://www.npmjs.com/package/multer)
+* [nodemailer](https://www.npmjs.com/package/nodemailer)
+* [Jester](https://www.npmjs.com/package/jester)
+
+
+## Trello
+
+with [trello](https://trello.com/b/GS70Xdtg/segundo-proyecto-backend) you can organice the whole proyect in a easy way
+
+![Trello image](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-06%20205840.png)
+
+
 
 
 
@@ -134,7 +155,11 @@ Full API endpoints documentation:
 
 [https://documenter.getpostman.com/view/11287519/Uz5JGun8](https://documenter.getpostman.com/view/11287519/Uz5JGun8)
 
+![Postman image](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-06%20210624.png)
+
+
 <p align="right">(<a href="#top">back to top</a>)</p>
+## Postman
 
 <!-- ROADMAP -->
 
