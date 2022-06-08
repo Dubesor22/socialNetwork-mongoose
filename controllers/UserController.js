@@ -136,6 +136,61 @@ const UserController = {
     }
   },
 
+  async deleteUserById(req, res, next) {
+    try {
+      
+      const users = await User.findById(req.params._id);
+      if (!users) {
+        return res.send("No User Found");
+      }
+      const user = await User.findByIdAndDelete(req.params._id);
+      const posts = await Post.find({ userId: req.params._id });
+      await Post.deleteMany({ userId: req.params._id });
+      await Comment.deleteMany({ userId: req.params._id });
+
+      posts.forEach(async (post) => {
+        await Comment.deleteMany({ postId: post._id });
+        const userss = await User.find({ favorites: post._id });
+        userss.forEach(async (user) => {
+          await User.findByIdAndUpdate(
+              user._id, 
+              {$pull: { favorites: req.params._id }}
+            );
+        });
+      });
+
+      const commentslike = await User.find({commentsLikes:req.params._id})
+      commentslike.forEach(async clikes=>{
+      await User.findByIdAndUpdate(
+          clikes._id,
+          {$pull:{commentsLikes:req.params._id}}
+        );
+      });
+
+      const followers = await User.find({follower:req.params._id});
+      followers.forEach(async (follower) => {
+      await User.findByIdAndUpdate(
+          follower._id,
+          {$pull: { followers: req.params._id }}
+        );
+      });
+
+      const followings = await User.find({ followings: req.params._id });
+      followings.forEach(async (follow) => {
+        await User.findByIdAndUpdate(
+          follow._id, 
+          {$pull: { followings: req.params._id },
+        });
+      });
+
+      res.status(200).send({ message: "Fulminated" ,user});
+    } catch (error) {
+      err.origin("user Delete")
+      res.status(500).send({message: "User delete error"});
+      next(error);
+    }
+  },
+
 
 
   async deleteAllUsers(req, res) {
