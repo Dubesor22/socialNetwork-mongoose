@@ -157,7 +157,7 @@ Full API endpoints documentation:
 
 [https://documenter.getpostman.com/view/11287519/Uz5JGun8](https://documenter.getpostman.com/view/11287519/Uz5JGun8)
 
-![Postman image](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-06%20210624.png)
+![Postman image](./assets/postmanImage.jpg)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

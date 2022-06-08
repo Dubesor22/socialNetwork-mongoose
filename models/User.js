@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
     role: {type: String, unum: ["user", "admin"], default: "user"},
     confirmed: { type: Boolean, default: true },
     tokens: [],
-    avatar: { type: String, default: "" },
+    avatar: { type: String, default: './assets/AvatarGenerico.jpg' },
     postIds: [{ type: ObjectId, ref: "Post" }],
     followers: [{ type: ObjectId, ref: "User"}],
     followings:[{type:Object,ref:'User'}],
