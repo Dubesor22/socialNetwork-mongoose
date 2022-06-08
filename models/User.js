@@ -14,13 +14,16 @@ const UserSchema = new mongoose.Schema(
       max: 50,
       validate: [isEmail, "nOT A valid email!"],
     },
-    role: {type: String, default: "user"},
+    favorites:[{type:Object,ref:'Post'}],
+    
+    role: {type: String, unum: ["user", "admin"], default: "user"},
     confirmed: { type: Boolean, default: true },
     tokens: [],
     avatar: { type: String, default: "" },
     postIds: [{ type: ObjectId, ref: "Post" }],
-    isAdmin: { type: Boolean, default: false },
-    followers: [{ type: ObjectId }],
+    followers: [{ type: ObjectId, ref: "User"}],
+    followings:[{type:Object,ref:'User'}],
+    // commentsLikes:[{type:Object,ref:'Comment'}],
   },
   { timestamps: true }
 );

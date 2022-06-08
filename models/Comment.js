@@ -10,6 +10,7 @@ const CommentSchema = new mongoose.Schema(
     // commentDate: Date,
     postId: { type: ObjectId, ref: "Post" },
     text: { type: String, required: true },
+    likes:[{type:ObjectId,ref:'User'}],
   },
   { timestamps: true }
 );

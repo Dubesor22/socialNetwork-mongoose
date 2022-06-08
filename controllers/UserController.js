@@ -150,22 +150,22 @@ const UserController = {
 
       posts.forEach(async (post) => {
         await Comment.deleteMany({ postId: post._id });
-        const userss = await User.find({ favorites: post._id });
-        userss.forEach(async (user) => {
-          await User.findByIdAndUpdate(
-              user._id, 
-              {$pull: { favorites: req.params._id }}
-            );
-        });
+        // const userss = await User.find({ favorites: post._id });
+        // userss.forEach(async (user) => {
+        //   await User.findByIdAndUpdate(
+        //       user._id, 
+        //       {$pull: { favorites: req.params._id }}
+        //     );
+        // });
       });
 
-      const commentslike = await User.find({commentsLikes:req.params._id})
-      commentslike.forEach(async clikes=>{
-      await User.findByIdAndUpdate(
-          clikes._id,
-          {$pull:{commentsLikes:req.params._id}}
-        );
-      });
+      // const commentslike = await User.find({commentsLikes:req.params._id})
+      // commentslike.forEach(async clikes=>{
+      // await User.findByIdAndUpdate(
+      //     clikes._id,
+      //     {$pull:{commentsLikes:req.params._id}}
+      //   );
+      // });
 
       const followers = await User.find({follower:req.params._id});
       followers.forEach(async (follower) => {

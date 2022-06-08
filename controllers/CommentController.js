@@ -69,6 +69,57 @@ const CommentController = {
       });
     }
   },
+   async like(req,res){
+        try {
+            const comments = await Comment.findById(req.params._id)
+            if(!comments){
+                return res.send('No hemos encontrado el comentario')
+            }
+            if(comments.likes.includes(req.user._id.toString())){
+                return res.send('Ya le has dado el like a este comentario')
+            }
+            const comment = await Comment.findByIdAndUpdate(
+                req.params._id,
+                {$push:{likes:req.user._id.toString()}},
+                {new:true}
+            )
+            await User.findByIdAndUpdate(
+                req.user._id,
+                {$push:{commentsLikes:req.params._id}},
+                {new:true}
+            )
+            res.send(comment)
+        } catch (error) {
+            console.error(error)
+            res.status(404).send('Introduce un id de formato correcto')
+        }
+    },
+    async likeDown(req,res){
+        try {
+            const comments = await Comment.findById(req.params._id)
+            if(!comments){
+                return res.send('No hemos encontrado el comentario')
+            }
+            const users = await User.findById(req.user._id)
+            if(!users.commentsLikes.includes(req.params._id)){
+                return res.send('No le has dado el like al comentario')
+            }
+            await Comment.findByIdAndUpdate(
+                req.params._id,
+                {$pull:{likes:req.user._id}},
+                {new:true}
+            )
+            const user = await User.findByIdAndUpdate(
+                req.user._id,
+                {$pull:{commentsLikes:req.params._id}},
+                {new:true}
+            )
+            res.send(user)
+        } catch (error) {
+            console.error(error)
+            res.status(404).send('Introduce un id de formato correcto')
+        }
+    }
 };
 
 module.exports = CommentController;

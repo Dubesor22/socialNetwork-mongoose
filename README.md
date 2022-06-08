@@ -56,6 +56,8 @@ Use [this Link](https://docs.google.com/document/d/1Ls9hd-X-NSqukJ0G-VKlXq8PXSQ6
 
 ### Built With
 
+![moongose](https://thecodebarbarian.com/images/mongoose5.png)
+
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 - [Node.js](https://node.org/)
