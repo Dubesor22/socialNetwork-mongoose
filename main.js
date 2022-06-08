@@ -9,6 +9,8 @@ const Logger = require("logplease");
 const logger = Logger.create("NUCLEAR LAUNCH DETECTED...", {
   color: Logger.Colors.Magenta,
 });
+const swaggerUI = require('swagger-ui-express')
+const docs = require('./docs/index')
 
 
 
@@ -24,6 +26,8 @@ app.get("/", (req, res) => {
 app.use("/posts", require("./routes/posts"));
 app.use("/comments", require("./routes/comments"));
 app.use("/users", require("./routes/users"));
+
+app.use('/api-docs', swaggerUI.serve,swaggerUI.setup(docs))
 
 app.use(typeError);
 
